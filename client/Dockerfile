@@ -8,6 +8,8 @@ copy . .
 # execute command to construct node project
 run npm install
 
+EXPOSE 3000
+
 ENTRYPOINT ["npm","start"]
 # use a new image
 

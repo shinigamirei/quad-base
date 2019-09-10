@@ -2,14 +2,13 @@
 
 #try to use a multi stage file
 
-FROM maven
+FROM maven as maven
 WORKDIR /build
-COPY pom.xml .
-RUN mvn verify --fail-never
 COPY . .
 RUN mvn clean package
 
-FROM openjdk:8
-COPY target/Spring_Day_Two-0.0.1-SNAPSHOT.jar Server.jar
+FROM java:8
+WORKDIR /server
+COPY --from=maven /build/target/Spring_Day_Two-0.0.1-SNAPSHOT.jar Server.jar
 ENTRYPOINT ["java","-jar","Server.jar"]
 
