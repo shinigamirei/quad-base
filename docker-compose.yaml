@@ -2,18 +2,27 @@
 version: '3.7'
 services:
     nginx:
-      
+      image: nginx
+      ports:
+        - "80:80"
       depends_on:
-        
+        - client
     server:
-      
+      image: gadagack/quad-base-server
+      ports:
+        - "8080:8080"
+      depends_on:
+        - mongo  
     client:
-      
-      
+      image: gadagack/quad-base-client
+      ports:
+        - "3000:3000"
+      depends_on:
+        - server
       environment:
       - REACT_APP_SERVICE_HOST=${REACT_APP_SERVICE_HOST}
     mongo:
-      
+      image: mongo
     mongo-seed:
       image: fvilers/mongo-seed:1.0.0
       environment:
@@ -23,7 +32,8 @@ services:
       - ./data:/data
       command:
       - "mongoimport --host mongo --port 27017 --db test --mode upsert --type json --file /data/account.json --jsonArray"
-
+      depends_on:
+        -mongo
   
 ...
 
