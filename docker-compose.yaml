@@ -8,13 +8,13 @@ services:
       depends_on:
         - client
     server:
-      image: gadagack/quad-base-server
+      image: gadagack/quad-base-server:latest
       ports:
         - "8080:8080"
       depends_on:
         - mongo  
     client:
-      image: gadagack/quad-base-client
+      image: gadagack/quad-base-client:latest
       ports:
         - "3000:3000"
       depends_on:
@@ -33,7 +33,7 @@ services:
       command:
       - "mongoimport --host mongo --port 27017 --db test --mode upsert --type json --file /data/account.json --jsonArray"
       depends_on:
-        -mongo
+      - mongo
   
 ...
 
